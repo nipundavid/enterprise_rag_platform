@@ -7,6 +7,7 @@ from chromadb.utils import embedding_functions
 import os
 from dotenv import load_dotenv
 load_dotenv()
+logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -41,7 +42,8 @@ def create_index(chunks:list):
         model_name="text-embedding-3-small"
     )
 
-    client = chromadb.PersistentClient(path="./my_chroma_db")
+    db_path = PATH(__file__).resolve().parent / "my_chroma_db"
+    client = chromadb.PersistentClient(path=str(db_path))
 
     # Pass the embedding function during collection creation
     collection = client.get_or_create_collection(

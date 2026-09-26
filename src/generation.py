@@ -1,4 +1,5 @@
 from retriever import create_query_embedding, run_retrieval
+from pathlib import Path
 
 def generate_answer(query:str, retrieved_chunks:list, source:dict):
     from openai import OpenAI
@@ -16,13 +17,18 @@ def generate_answer(query:str, retrieved_chunks:list, source:dict):
     
     return response.choices[0].message.content 
 
-if __name__ == "__main__":
-    query = "How old is Mukesh's infant?"
-    query_embedding = create_query_embedding(query)
-    results = run_retrieval(query_vector=query_embedding, db_path="./my_chroma_db", collection_name="my_collection_short_stories")
-    retrieved_chunks = results["documents"][0]
-    input_query = input("Enter your query: ")
+def ask_query():
+    db_path = str(Path(__file__).resolve().parent / "my_chroma_db")
+    collection_name = "my_collection_short_stories"
     # How old is Mukesh's child?
-    answer = generate_answer(input_query, retrieved_chunks, source=results["metadatas"][0])  # Pass the source metadata if needed 
+    input_query = input("Enter your query: ")
+    query_embedding = create_query_embedding(input_query)
+    results = run_retrieval(query_vector=query_embedding, db_path=db_path, collection_name=collection_name)
+    retrieved_chunks = results["documents"][0]
+    answer = generate_answer(input_query, retrieved_chunks, source=results["metadatas"][0]) 
     
     print("Answer:", answer)
+
+if __name__ == "__main__":
+    ask_query()
+    
