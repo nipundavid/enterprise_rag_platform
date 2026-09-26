@@ -1,0 +1,21 @@
+[project]
+name = "enterprise-rag-platform"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Nipun David", email = "nipun18david@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "chromadb>=1.5.9",
+    "openai>=3.19.2",
+    "pymupdf4llm>=1.28.2",
+]
+
+[project.scripts]
+enterprise-rag-platform = "enterprise_rag_platform:main"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
