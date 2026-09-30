@@ -9,8 +9,10 @@ authors = [
 requires-python = ">=3.14"
 dependencies = [
     "chromadb>=1.5.9",
+    "fastapi[standard]>=0.142.1",
     "openai>=3.19.2",
     "pymupdf4llm>=1.28.2",
+    "pyyaml>=6.0.3",
 ]
 
 [project.scripts]
@@ -19,3 +21,6 @@ enterprise-rag-platform = "enterprise_rag_platform:main"
 [build-system]
 requires = ["uv_build>=0.12.19,<0.13.0"]
 build-backend = "uv_build"
+
+[tool.fastapi]         
+entrypoint = "src.main:app"

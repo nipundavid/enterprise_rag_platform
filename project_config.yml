@@ -1,0 +1,8 @@
+project_name:
+  name: enterprise_rag_platform
+  version: 0.1.0
+
+vector_db:
+  type: chromadb
+  persist_directory: ./src/my_chroma_db
+  collection_name: my_collection_short_stories
