@@ -23,8 +23,7 @@ for data in eval_data[1:]:
     question = data["question"]
     expected_answer = data["expected_answer"]
     query_embedding = create_query_embedding(question)
-    db_path = "/workspaces/enterprise_rag_platform/src/my_chroma_db"
-    collection_name = "my_collection_short_stories"
+    
     results = run_retrieval(query_vector=query_embedding, db_path=db_path, collection_name=collection_name)
     retrieved_chunks = results["documents"][0]
     answer = generate_answer(question, retrieved_chunks, source=results["metadatas"][0]) 

@@ -26,12 +26,19 @@ def load_text(file):
     text = pymupdf4llm.to_markdown(file)
     texts_data[file.name] = text
 
-def create_chunks(text_data:dict):
-    
+def create_chunks(text_data: dict):
+    chunks = []
+
     for text, source in zip(text_data.values(), text_data.keys()):
         for i in range(0, len(text), CHUNK_SIZE - OVERLAP):
             chunk = text[i:i + CHUNK_SIZE]
-            chunks.append({"text": chunk, "source": source})
+
+            chunks.append({
+                "chunk_id": f"{source}_{i}",
+                "text": chunk,
+                "source": source
+            })
+
     return chunks
 
 
@@ -55,7 +62,13 @@ def create_index(chunks:list):
     collection.add(
         documents=[chunk["text"] for chunk in chunks],
         ids=[f"doc{i}" for i in range(len(chunks))],
-        metadatas=[{"source": chunk["source"]} for chunk in chunks]
+        metadatas=[
+            {
+                "source": chunk["source"],
+                "chunk_id": chunk["chunk_id"]
+            }
+            for chunk in chunks
+        ]
     )
 
 

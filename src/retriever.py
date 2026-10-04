@@ -10,14 +10,14 @@ def create_query_embedding(query: str):
     )
     return response.data[0].embedding
 
-def run_retrieval(query_vector:list, db_path:str, collection_name:str):
+def run_retrieval(query_vector:list, db_path:str, collection_name:str,k=3):
     client = chromadb.PersistentClient(path=db_path)
     collection = client.get_collection(name=collection_name)
 
     # Query using the pre-generated vector
     results = collection.query(
         query_embeddings=[query_vector], 
-        n_results=3
+        n_results=k
     )
 
     return results
